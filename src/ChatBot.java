@@ -53,6 +53,11 @@ public class ChatBot {
     public String getResponse(String input) {
         input = input.toLowerCase();
         input = lemmatize(input);
+
+         // Check if it's a learning command
+         if (handleLearning(input)) {
+        return "Thanks! I've learned something new.";
+        }
         
         //if user Enters nothing
         if (input == null || input.trim().isEmpty()){
