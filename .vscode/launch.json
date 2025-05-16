@@ -6,20 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "BankingBot_c60f3739"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "BankingBot_104e131a"
-        },
-        {
-            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -29,8 +15,8 @@
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
-            "projectName": "BankingBot_2e71c77",
-            "vmArgs": "--module-path /C:/Program Files/javafx-sdk-24.0.1/lib/ --add-modules javafx.controls,javafx.fxml"
+            "projectName": "BankingBot_c60f3739",
+            "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-24.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }
