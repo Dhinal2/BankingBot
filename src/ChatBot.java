@@ -9,7 +9,7 @@ public class ChatBot {
     private String userName;
     private final Random random;
 
-        private final String LEARNED_FILE = "learned.txt"; // 🗃 File to store learned Q&A
+        private final String LEARNED_FILE = "learned.txt"; // File to store learned Q&A
 
     //Constructors
     public ChatBot() {
@@ -20,7 +20,7 @@ public class ChatBot {
         loadKeywordResponses();
         lemmas = new HashMap<>();
         loadLemmas();
-        loadLearnedResponses(); // 🔄 Load responses from file
+        loadLearnedResponses(); // Load responses from file
     }
 
     // Static Responses to user (greetings method)
