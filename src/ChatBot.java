@@ -2,11 +2,11 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class ChatBot {
-    private HashMap<String, String> staticResponses;
-    private HashMap<String, String> keywordResponses;
-    private HashMap<String, String> lemmas;
+    private final HashMap<String, String> staticResponses;
+    private final HashMap<String, String> keywordResponses;
+    private final HashMap<String, String> lemmas;
     private String userName;
-    private Random random;
+    private final Random random;
 
     //Constructors
     public ChatBot() {
@@ -19,7 +19,7 @@ public class ChatBot {
         loadLemmas();
     }
 
-    // Static Responses to user (greetings)
+    // Static Responses to user (greetings method)
     private void loadStaticResponses() {
         staticResponses.put("hello", "Hello! How can I help you?");
         staticResponses.put("hi", "Hi there! What can I do for you?");
@@ -29,11 +29,14 @@ public class ChatBot {
         // Add more as needed
     }
 
-     // Banking keyword-based responses
+     // Banking keyword-based responses method
      private void loadKeywordResponses() {
         keywordResponses.put("balance", "You can check your balance via the mobile app or by visiting your nearest branch.");
         keywordResponses.put("loan", "We offer personal, home, and car loans with attractive interest rates.");
         keywordResponses.put("account", "We have savings, current, and fixed deposit accounts.");
+        keywordResponses.put("current account", "Would you like to open a current account?");
+        keywordResponses.put("savings account", "Would you like to open a savings account?");
+        keywordResponses.put("fixed deposit", "Would you like to open a fixed deposit account?");
         keywordResponses.put("transfer", "You can transfer money using our mobile app or by visiting a branch.");
         keywordResponses.put("atm", "You can locate the nearest ATM using our bank's website or app.");
         keywordResponses.put("credit card", "We offer various credit cards with reward points and cashback.");
@@ -42,9 +45,10 @@ public class ChatBot {
         keywordResponses.put("help", "I'm here to assist you with banking-related queries. You can ask about loans, accounts, ATMs, and more.");
     }
 
-
+    // Get the user Response
     public String getResponse(String input) {
-        input = lemmatize(input.toLowerCase());
+        input = input.toLowerCase();
+        input = lemmatize(input);
 
 
         //if user Enters nothing
@@ -92,9 +96,14 @@ public class ChatBot {
         lemmas.put("transferring", "transfer");
         lemmas.put("transferred", "transfer");
         lemmas.put("opened", "open");
+        lemmas.put("opn", "open");
         lemmas.put("accounts", "account");
+        lemmas.put("acc", "account");
         lemmas.put("balances", "balance");
-        // Add more as needed
+        lemmas.put("bal", "balance");
+        lemmas.put("fd", "fixed deposit");
+        lemmas.put("rate", "interest");
+        
     }
     
     // Method to apply lematization words
