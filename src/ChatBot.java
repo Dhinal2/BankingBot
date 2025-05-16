@@ -118,7 +118,7 @@ public class ChatBot {
         }
         return input;
     }
-    // 🔄 Load learned responses from file
+    // Load learned responses from file
     private void loadLearnedResponses() {
         File file = new File(LEARNED_FILE);
         if (!file.exists()) return;
@@ -138,7 +138,7 @@ public class ChatBot {
         }
     }
 
-    // 💾 Save new learned response
+    // Save new learned response
     private void saveLearnedResponse(String question, String answer) {
         try (FileWriter writer = new FileWriter(LEARNED_FILE, true)) {
             writer.write(question + "=" + answer + "\n");
@@ -147,7 +147,7 @@ public class ChatBot {
         }
     }
 
-    // 🧠 Train the bot with custom question = answer format
+    // Train the bot with custom question = answer format
     public boolean handleLearning(String input) {
         if (input.toLowerCase().startsWith("learn:")) {
             String[] parts = input.substring(6).split("=", 2);
