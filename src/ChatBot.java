@@ -118,6 +118,7 @@ public class ChatBot {
         }
         return input;
     }
+    
     // Load learned responses from file
     private void loadLearnedResponses() {
         File file = new File(LEARNED_FILE);

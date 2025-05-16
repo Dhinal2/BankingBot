@@ -9,7 +9,8 @@ public class Main {
             System.out.print("You: ");
             String userInput = scanner.nextLine();
             String response = bot.getResponse("my name is " + userInput); // Register name
-            System.out.println("BankBot: " + response);
+            System.out.println("BankBot: " + response); 
+            System.out.println("How can I help you today?");
 
             String userName = userInput.trim();
 
