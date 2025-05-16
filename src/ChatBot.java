@@ -4,15 +4,19 @@ import java.util.Random;
 public class ChatBot {
     private HashMap<String, String> staticResponses;
     private HashMap<String, String> keywordResponses;
+    private HashMap<String, String> lemmas;
     private String userName;
     private Random random;
 
+    //Constructors
     public ChatBot() {
         staticResponses = new HashMap<>();
         keywordResponses = new HashMap<>();
         random = new Random();
         loadStaticResponses();
         loadKeywordResponses();
+        lemmas = new HashMap<>();
+        loadLemmas();
     }
 
     // Static Responses to user (greetings)
@@ -80,4 +84,28 @@ public class ChatBot {
         };
         return fallback[random.nextInt(fallback.length)];
     }
+
+    // Lematization method to load common variations
+    private void loadLemmas() {
+        lemmas.put("loans", "loan");
+        lemmas.put("transferring", "transfer");
+        lemmas.put("transferred", "transfer");
+        lemmas.put("opened", "open");
+        lemmas.put("accounts", "account");
+        lemmas.put("balances", "balance");
+        // Add more as needed
+    }
+    
+    // Method to apply lematization words
+    private String lemmatize(String input) {
+        for (String word : lemmas.keySet()) {
+            if (input.contains(word)) {
+                input = input.replace(word, lemmas.get(word));
+            }
+        }
+        return input;
+    }
+
+
+
 }
