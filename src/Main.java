@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)){
             ChatBot bot = new ChatBot();
-
+            //Print
         System.out.println("BankBot: Hello! I'm your banking assistant. What is your name?");
             
         while (true) {
