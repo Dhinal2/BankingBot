@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -8,6 +9,8 @@ public class ChatBot {
     private String userName;
     private final Random random;
 
+        private final String LEARNED_FILE = "learned.txt"; // 🗃 File to store learned Q&A
+
     //Constructors
     public ChatBot() {
         staticResponses = new HashMap<>();
@@ -17,6 +20,7 @@ public class ChatBot {
         loadKeywordResponses();
         lemmas = new HashMap<>();
         loadLemmas();
+        loadLearnedResponses(); // 🔄 Load responses from file
     }
 
     // Static Responses to user (greetings method)
@@ -82,9 +86,9 @@ public class ChatBot {
 
         // Fallback random response
         String[] fallback = {
-            "Hmm... I'm not sure I understand.",
-            "Could you please rephrase that?",
-            "I'm still learning. Can you ask that another way?"
+        "Hmm... I'm not sure I understand. You can teach me using: learn: your question = your answer",
+        "I'm still learning. Want to teach me something new? Just type: learn: your question = your answer",
+        "Sorry, I don't have an answer for that. You can add one using: learn: your question = your answer"
         };
         return fallback[random.nextInt(fallback.length)];
     }
@@ -114,7 +118,49 @@ public class ChatBot {
         }
         return input;
     }
+    // 🔄 Load learned responses from file
+    private void loadLearnedResponses() {
+        File file = new File(LEARNED_FILE);
+        if (!file.exists()) return;
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("=")) {
+                    String[] parts = line.split("=", 2);
+                    String question = parts[0].trim().toLowerCase();
+                    String answer = parts[1].trim();
+                    keywordResponses.put(question, answer);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading learned responses: " + e.getMessage());
+        }
+    }
 
+    // 💾 Save new learned response
+    private void saveLearnedResponse(String question, String answer) {
+        try (FileWriter writer = new FileWriter(LEARNED_FILE, true)) {
+            writer.write(question + "=" + answer + "\n");
+        } catch (IOException e) {
+            System.out.println("Error saving learned response: " + e.getMessage());
+        }
+    }
 
+    // 🧠 Train the bot with custom question = answer format
+    public boolean handleLearning(String input) {
+        if (input.toLowerCase().startsWith("learn:")) {
+            String[] parts = input.substring(6).split("=", 2);
+            if (parts.length == 2) {
+                String question = lemmatize(parts[0].trim().toLowerCase());
+                String answer = parts[1].trim();
+                keywordResponses.put(question, answer);
+                saveLearnedResponse(question, answer);
+                return true;
+            }
+        }
+        return false;
+    }
+
+        
 }
