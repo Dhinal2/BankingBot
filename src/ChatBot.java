@@ -12,7 +12,7 @@ public class ChatBot {
         loadStaticResponses();
     }
 
-    // Static Responses to user
+    // Static Responses to user 
     private void loadStaticResponses() {
         staticResponses.put("hello", "Hello! How can I help you?");
         staticResponses.put("hi", "Hi there! What can I do for you?");
