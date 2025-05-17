@@ -42,7 +42,7 @@ public class ChatBotGUI {
         // Initial greeting
         chatArea.append("BankBot: Hello! I'm your banking assistant. What is your name?\n");
 
-        frame.setVisible(true);
+        frame.setVisible(true);   
     }
 
     private void sendMessage() {
@@ -68,6 +68,55 @@ public class ChatBotGUI {
             awaitingName = false; // name has been set
             return;
         }
+
+        String lower = input.toLowerCase();
+
+    // account-type request
+    if (lower.contains("account type") || lower.contains("type of account")) {
+        String type = bot.lookupUserField(userName, "type");
+        chatArea.append("BankBot: You have a “" + type + "” account.\n");
+        return;
+    }
+    // balance request
+    if (lower.contains("balance")) {
+        String bal = bot.lookupUserField(userName, "balance");
+        chatArea.append("BankBot: Your balance is Rs. " + bal + "\n");
+        return;
+    }
+    // account-number request
+    if (lower.contains("account number")) {
+        String acc = bot.lookupUserField(userName, "accountNumber");
+        chatArea.append("BankBot: Your account number is " + acc + "\n");
+        return;
+    }
+    // branch request
+    if (lower.contains("branch")) {
+        String br = bot.lookupUserField(userName, "branch");
+        chatArea.append("BankBot: Your branch is " + br + "\n");
+        return;
+    }
+
+    // Ask for balance
+    if (lower.contains("balance")) {
+        String result = bot.getUserInfo(userName, "balance");
+        chatArea.append("BankBot: Your current balance is Rs. " + result + "\n");
+        return;
+    }
+
+    // Ask for account number
+    if (lower.contains("account number")) {
+        String result = bot.getUserInfo(userName, "accountNumber");
+        chatArea.append("BankBot: Your account number is " + result + "\n");
+        return;
+    }
+
+    // Ask for branch
+    if (lower.contains("branch")) {
+        String result = bot.getUserInfo(userName, "branch");
+        chatArea.append("BankBot: Your branch is " + result + "\n");
+        return;
+    }
+
 
         // Handle learning
         if (bot.handleLearning(input)) {
