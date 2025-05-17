@@ -9,28 +9,21 @@
             "name": "ChatBotGUI",
             "request": "launch",
             "mainClass": "ChatBotGUI",
-            "projectName": "BankingBot_21cb0c99"
+            "projectName": "BankingBot_c60f3739"
         },
         {
             "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
+            "projectName": "BankingBot_c60f3739"
+        },
+        {
+            "type": "java",
+            "name": "ChatBotGUI",
+            "request": "launch",
+            "mainClass": "ChatBotGUI",
             "projectName": "BankingBot_21cb0c99"
-        },
-        {
-            "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "BankingBot_c60f3739",
-            "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-24.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }
