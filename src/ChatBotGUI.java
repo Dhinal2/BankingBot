@@ -4,11 +4,15 @@ import javax.swing.*;
 public class ChatBotGUI {
 
     private final ChatBot bot;
+    private final AvatarManager avatars = new AvatarManager();
+
     private JFrame frame;
     private JTextArea chatArea;
     private JTextField inputField;
     private String userName = "User";
     private boolean awaitingName = true;  // Track if we're waiting for name input
+    private JLabel avatarLabel;
+    
 
     public ChatBotGUI() {
         bot = new ChatBot();
@@ -20,11 +24,17 @@ public class ChatBotGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 600);
 
+        // Avatar at top
+        avatarLabel = new JLabel(avatars.get("happy"));
+        frame.getContentPane().add(avatarLabel, BorderLayout.NORTH);
+
+        // Chat area
         chatArea = new JTextArea();
         chatArea.setEditable(false);
         chatArea.setFont(new Font("Arial", Font.PLAIN, 14));
-        JScrollPane scrollPane = new JScrollPane(chatArea);
+        frame.getContentPane().add(new JScrollPane(chatArea), BorderLayout.CENTER);
 
+        // Input panel
         inputField = new JTextField();
         inputField.setFont(new Font("Arial", Font.PLAIN, 14));
         inputField.addActionListener(e -> sendMessage());
@@ -35,14 +45,10 @@ public class ChatBotGUI {
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputPanel.add(inputField, BorderLayout.CENTER);
         inputPanel.add(sendButton, BorderLayout.EAST);
-
-        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         frame.getContentPane().add(inputPanel, BorderLayout.SOUTH);
 
-        // Initial greeting
         chatArea.append("BankBot: Hello! I'm your banking assistant. What is your name?\n");
-
-        frame.setVisible(true);   
+        frame.setVisible(true);
     }
 
     private void sendMessage() {
@@ -77,10 +83,29 @@ public class ChatBotGUI {
         chatArea.append("BankBot: You have a “" + type + "” account.\n");
         return;
     }
-    // balance request
+
+
+    //Balance with Image 
     if (lower.contains("balance")) {
-        String bal = bot.lookupUserField(userName, "balance");
-        chatArea.append("BankBot: Your balance is Rs. " + bal + "\n");
+        String balStr = bot.lookupUserField(userName, "balance");
+        double bal = Double.parseDouble(balStr);
+        chatArea.append("BankBot: Your balance is Rs. " + balStr + "\n");
+    
+        if (bal < 1000) {
+            // Sad mood + tips
+            avatarLabel.setIcon(new ImageIcon("avatar_sad.png"));
+            chatArea.append("BankBot: I’m sorry to hear that. Here are some saving tips:\n");
+            chatArea.append(" • Track your expenses daily\n");
+            chatArea.append(" • Cut down on non-essentials\n");
+            chatArea.append(" • Set small weekly savings goals\n");
+        } else {
+            // Celebrating mood
+            avatarLabel.setIcon(new ImageIcon("cel.png"));
+            chatArea.append("BankBot: Wow, your balance looks healthy! 🎉\n");
+        }
+        // After a short delay, return to happy face
+        new Timer(3000, e -> avatarLabel.setIcon(new ImageIcon("avatar_happy.png")))
+          .start();
         return;
     }
     // account-number request
