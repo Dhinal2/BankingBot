@@ -35,7 +35,6 @@ public class ChatBot {
 
      // Banking keyword-based responses method
      private void loadKeywordResponses() {
-        keywordResponses.put("balance", "You can check your balance via the mobile app or by visiting your nearest branch.");
         keywordResponses.put("loan", "We offer personal, home, and car loans with attractive interest rates.");
         keywordResponses.put("account", "We have savings, current, and fixed deposit accounts.");
         keywordResponses.put("current account", "Would you like to open a current account?");
@@ -45,7 +44,6 @@ public class ChatBot {
         keywordResponses.put("atm", "You can locate the nearest ATM using our bank's website or app.");
         keywordResponses.put("credit card", "We offer various credit cards with reward points and cashback.");
         keywordResponses.put("interest", "Our interest rates vary depending on the type of account or loan. Please specify.");
-        keywordResponses.put("open account", "You can open an account online or visit the nearest branch with your ID.");
         keywordResponses.put("help", "I'm here to assist you with banking-related queries. You can ask about loans, accounts, ATMs, and more.");
     }
 
@@ -166,6 +164,57 @@ public class ChatBot {
             }
         }
         return false;
+    }
+
+    //Read Usernames from textfiles to check bank credentials
+    public String getUserInfo(String name, String field) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.toLowerCase().contains("name=" + name.toLowerCase())) {
+                    String[] parts = line.split(",");
+                    for (String part : parts) {
+                        String[] keyValue = part.split("=");
+                        if (keyValue[0].trim().equalsIgnoreCase(field)) {
+                            return keyValue[1].trim();
+                        }
+                    }
+                    return "I found your record, but couldn’t locate your " + field;
+                }
+            }
+            return "I couldn’t find your record. Are you registered?";
+        } catch (IOException e) {
+            return "Sorry, I couldn't read the user data file.";
+        }
+    }
+    
+        /**
+     * Look up a given field for the specified user in data/users.txt.
+     * @param name  the user's name (case-insensitive)
+     * @param field one of: name, accountNumber, type, branch, balance
+     * @return the field value or an error message
+     */
+    public String lookupUserField(String name, String field) {
+        File f = new File("Users.txt");
+        if (!f.exists()) return "No user database found.";
+        try (BufferedReader rdr = new BufferedReader(new FileReader(f))) {
+            String line;
+            while ((line = rdr.readLine()) != null) {
+                if (line.toLowerCase().contains("name=" + name.toLowerCase())) {
+                    // split each key=value pair
+                    for (String kv : line.split(",")) {
+                        String[] parts = kv.split("=", 2);
+                        if (parts[0].trim().equalsIgnoreCase(field)) {
+                            return parts[1].trim();
+                        }
+                    }
+                    return "I found you, but couldn’t find your “" + field + ".”";
+                }
+            }
+            return "I don’t have a record for “" + name + ".”";
+        } catch (IOException e) {
+            return "Error reading user data.";
+        }
     }
 
         
