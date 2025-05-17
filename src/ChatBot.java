@@ -8,6 +8,9 @@ public class ChatBot {
     private final HashMap<String, String> lemmas;
     private String userName;
     private final Random random;
+    private final HashMap<String, String> branchInfo = new HashMap<>();
+    private final String BRANCH_FILE = "Branches.txt";
+
 
         private final String LEARNED_FILE = "learned.txt"; // File to store learned Q&A
 
@@ -21,6 +24,8 @@ public class ChatBot {
         lemmas = new HashMap<>();
         loadLemmas();
         loadLearnedResponses(); // Load responses from file
+        loadBranchInfo();
+
     }
 
     // Static Responses to user (greetings method)
@@ -89,6 +94,17 @@ public class ChatBot {
             }
         }
 
+            // Check for branch lookup
+            if (input.contains("branch")) {
+            for (String location : branchInfo.keySet()) {
+            if (input.contains(location)) {
+            return "Our " + capitalize(location) + " branch is located at: " + branchInfo.get(location);
+                }
+            }
+            return "Please specify a branch location form the provided list. (Kandy, Colombo, Galle, Trinco, Hambantota)";
+        }
+
+
         // Fallback random response
         String[] fallback = {
         "Hmm... I'm not sure I understand. You can teach me using: learn: your question = your answer",
@@ -111,6 +127,7 @@ public class ChatBot {
         lemmas.put("bal", "balance");
         lemmas.put("fd", "fixed deposit");
         lemmas.put("rate", "interest");
+        lemmas.put("branches", "branch");
         
     }
     
@@ -167,6 +184,29 @@ public class ChatBot {
         }
         return false;
     }
+
+    private void loadBranchInfo() {
+    File file = new File(BRANCH_FILE);
+    if (!file.exists()) return;
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.contains("=")) {
+                String[] parts = line.split("=", 2);
+                String location = parts[0].trim().toLowerCase();
+                String address = parts[1].trim();
+                branchInfo.put(location, address);
+            }
+        }
+    } catch (IOException e) {
+        System.out.println("Error loading branch info: " + e.getMessage());
+    }
+}
+
+    private String capitalize(String input) {
+    return input.substring(0, 1).toUpperCase() + input.substring(1);
+}
 
         
 }

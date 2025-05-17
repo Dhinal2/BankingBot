@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "BankingBot_21cb0c99"
+        },
+        {
+            "type": "java",
             "name": "ChatBotGUI",
             "request": "launch",
             "mainClass": "ChatBotGUI",
