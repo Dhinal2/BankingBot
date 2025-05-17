@@ -2,3 +2,4 @@ debit card=You can request for a debit card via online or at our branch.
 overdraft=Overdraft facilities are available for specific a/c types.
 
 new test case=Ah this is a new test case!
+chase=I cannot chase I am a bot
