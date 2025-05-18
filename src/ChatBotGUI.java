@@ -68,28 +68,28 @@ public class ChatBotGUI {
             return;
         }
 
-        // Handle name assignment only once
-        if (awaitingName) {
-            userName = input;
-            String response = bot.getResponse("my name is " + userName);
-            chatArea.append("BankBot: " + response + "\n");
-            chatArea.append("BankBot: How can I help you today?\n");
-            awaitingName = false; // name has been set
-            return;
-        }
+    // Handle name assignment only once
+    if (awaitingName) {
+        userName = input;
+        String response = bot.getResponse("my name is " + userName);
+        chatArea.append("BankBot: " + response + "\n");
+        chatArea.append("BankBot: How can I help you today?\n");
+        awaitingName = false; // name has been set
+        return;
+    }
 
-        String lower = input.toLowerCase();
+    String lower = input.toLowerCase();
 
-        //If user says ok for saving tips when balance is lower than 1000
-        if (waitingForSavingTips && (lower.equals("yes") || lower.equals("ok"))) {
-            chatArea.append("BankBot: Here are some saving tips:\n");
-            chatArea.append(" • Track your expenses daily\n");
-            chatArea.append(" • Cut down on non-essentials\n");
-            chatArea.append(" • Set small weekly savings goals\n");
-            waitingForSavingTips = false;  // Reset the flag
-            return;
-        }
-        
+    //If user says ok for saving tips when balance is lower than 1000
+    if (waitingForSavingTips && (lower.equals("yes") || lower.equals("ok"))) {
+        chatArea.append("BankBot: Here are some saving tips:\n");
+        chatArea.append(" • Track your expenses daily\n");
+        chatArea.append(" • Cut down on non-essentials\n");
+        chatArea.append(" • Set small weekly savings goals\n");
+        waitingForSavingTips = false;  // Reset the flag
+        return;
+    }
+       
     // account-type request
     if (lower.contains("account type") || lower.contains("type of account")) {
         String type = bot.lookupUserField(userName, "type");
@@ -169,20 +169,20 @@ public class ChatBotGUI {
     }
 
 
-        // Handle learning
-        if (bot.handleLearning(input)) {
-            chatArea.append("BankBot: Thank you! I've learned something new.\n");
-            return;
-        }
+    // Handle learning
+    if (bot.handleLearning(input)) {
+        chatArea.append("BankBot: Thank you! I've learned something new.\n");
+        return;
+    }
 
-        // Normal response
-        String response = bot.getResponse(input);
-        chatArea.append("BankBot: " + response + "\n");
+    // Normal response
+    String response = bot.getResponse(input);
+    chatArea.append("BankBot: " + response + "\n");
 
-        // Hint if fallback
-        if (response.contains("I'm not sure") || response.contains("teach me")) {
-            chatArea.append("BankBot: You can help me learn! Use: learn: your question = your answer\n");
-        }
+    // Hint if fallback
+    if (response.contains("I'm not sure") || response.contains("teach me")) {
+        chatArea.append("BankBot: You can help me learn! Use: learn: your question = your answer\n");
+    }
     }
 
     public static void main(String[] args) {

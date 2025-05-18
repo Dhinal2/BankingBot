@@ -1,0 +1,19 @@
+loan=We offer personal, home, and car loans with attractive interest rates.
+account=We have savings, current, and fixed deposit accounts. What account type would you like to open?
+credit card=We offer various credit cards with reward points and cashback.
+
+loan=We offer personal, home, and car loans with attractive interest rates.
+account=We have savings, current, and fixed deposit accounts.What account type would you like to open?
+current account=If you would like to open a current account, visit the nearest Branch or Download our App
+savings account=If you would like to open a savings account, visit the nearest Branch or Download our App
+fixed deposit=If you would like to open a fixed deposit, visit the nearest Branch or Download our App
+transfer=You can transfer money using our mobile app or by visiting a branch.
+atm=You can locate the nearest ATM using our bank's website or app.
+credit card=We offer various credit cards with reward points and cashback.
+interest=Our interest rates vary depending if it is an account or loan rate. Please specify.
+help=I'm here to assist you with banking-related queries. You can ask about loans, accounts, ATMs, and more
+loan rate=We offer 1 year loans with only 2.5% intrest rates
+account rate=Fixed Deposit Rates include 8% for 1 year.
+personal loans = We off Personal loans upto a year.
+home loans=Home loans upto a 5 years.
+car loans=Car loans upto a 3 years

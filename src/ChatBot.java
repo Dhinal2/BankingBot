@@ -18,7 +18,7 @@ public class ChatBot {
         keywordResponses = new HashMap<>();
         random = new Random();
         loadStaticResponses();
-        loadKeywordResponses();
+        loadDynamicResponsesFromFile();
         lemmas = new HashMap<>();
         loadLemmas();
         loadLearnedResponses(); // Load responses from file
@@ -39,24 +39,26 @@ public class ChatBot {
         
     }
 
-     // Banking keyword-based responses method
-     private void loadKeywordResponses() {
-        keywordResponses.put("loan", "We offer personal, home, and car loans with attractive interest rates.");
-        keywordResponses.put("account", "We have savings, current, and fixed deposit accounts.\nWhat account type would you like to open?");
-        keywordResponses.put("current account", "If you would like to open a current account, visit the nearest Branch or Download our App");
-        keywordResponses.put("savings account", "If you would like to open a savings account, visit the nearest Branch or Download our App");
-        keywordResponses.put("fixed deposit", "If you would like to open a fixed deposit, visit the nearest Branch or Download our App");
-        keywordResponses.put("transfer", "You can transfer money using our mobile app or by visiting a branch.");
-        keywordResponses.put("atm", "You can locate the nearest ATM using our bank's website or app.");
-        keywordResponses.put("credit card", "We offer various credit cards with reward points and cashback.");
-        keywordResponses.put("interest", "Our interest rates vary depending if it is an account or loan rate. Please specify.");
-        keywordResponses.put("help", "I'm here to assist you with banking-related queries. You can ask about loans, accounts, ATMs, and more.");
-        keywordResponses.put("loan rate", "We offer 1 year loans with only 2.5% intrest rates ");
-        keywordResponses.put("account rate", "Fixed Deposit Rates include 8% for 1 year");
-        keywordResponses.put("personal loans", "We off Personal loans upto a year!");
-        keywordResponses.put("home loans", "Home loans upto a 5 years!");
-        keywordResponses.put("car loans", "Car loans upto a 3 years!");
+     // Banking keyword-based responses method to load dynamic responses
+     private void loadDynamicResponsesFromFile() {
+        File file = new File("knowledgebase.txt");
+        if (!file.exists()) return;
+    
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("=")) {
+                    String[] parts = line.split("=", 2);
+                    String keyword = parts[0].trim().toLowerCase();
+                    String response = parts[1].trim();
+                    keywordResponses.put(keyword, response);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading dynamic responses: " + e.getMessage());
+        }
     }
+    
 
     // Get the user Response
     public String getResponse(String input) {
@@ -102,38 +104,51 @@ public class ChatBot {
         return fallback[random.nextInt(fallback.length)];
     }
     
+    // Basic stemmer to remove common plural and suffix forms
+    private String stemWord(String word) {
+        if (word.endsWith("ies")) {
+            return word.substring(0, word.length() - 3) + "y";  // e.g. "policies" -> "policy"
+        } else if (word.endsWith("s") && word.length() > 3) {
+            return word.substring(0, word.length() - 1);  // e.g. "accounts" -> "account"
+        } else if (word.endsWith("ing")) {
+            return word.substring(0, word.length() - 3);  // e.g. "transferring" -> "transfer"
+        } else if (word.endsWith("ed")) {
+            return word.substring(0, word.length() - 2);  // e.g. "transferred" -> "transfer"
+        }
+        return word;
+    }
+
 
     // Lematization method to load common variations
     private void loadLemmas() {
-        lemmas.put("transferring", "transfer");
-        lemmas.put("transferred", "transfer");
-        lemmas.put("accounts", "account");
-        lemmas.put("saving", "savings account");
-        lemmas.put("savings", "savings account");
-        lemmas.put("current", "current account");
+        lemmas.put("loans", "loan");
         lemmas.put("acc", "account");
         lemmas.put("balances", "balance");
         lemmas.put("bal", "balance");
-        lemmas.put("fd", "fixed deposit");
         lemmas.put("branches", "branch");
         lemmas.put("what is your name", "whats your name");
-        lemmas.put("personal loan", "personal loans");
-        lemmas.put("personal", "personal loans");
-        lemmas.put("home loan", "home loans");
-        lemmas.put("home", "home loans");
-        lemmas.put("car loan", "car loans");
-        lemmas.put("car", "car loans");
     }
     
     // Method to apply lematization words
     private String lemmatize(String input) {
-        for (String word : lemmas.keySet()) {
-            if (input.contains(word)) {
-                input = input.replace(word, lemmas.get(word));
+        String[] words = input.split("\\s+");
+        StringBuilder result = new StringBuilder();
+    
+        for (String word : words) {
+            // First check dictionary
+            String lemma = lemmas.getOrDefault(word, word);
+    
+            // Then stem the result (unless it was already in dictionary)
+            if (!lemmas.containsKey(word)) {
+                lemma = stemWord(lemma);
             }
+    
+            result.append(lemma).append(" ");
         }
-        return input;
+    
+        return result.toString().trim();
     }
+    
     
     // Load learned responses from file
     private void loadLearnedResponses() {
