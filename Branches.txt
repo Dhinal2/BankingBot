@@ -1,5 +1,0 @@
-Colombo = 123 Main Street, Colombo 01
-Kandy = 456 Lake Road, Kandy
-Galle = 789 Fort Road, Galle
-Trinco = 965 Barathi Street, Trincomalee
-Hambantota = 777 Hospital Street, Hambantota 
