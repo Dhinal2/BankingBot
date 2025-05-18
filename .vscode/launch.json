@@ -6,10 +6,17 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ChatBotGUI",
+            "request": "launch",
+            "mainClass": "ChatBotGUI",
+            "projectName": "BankingBot_21cb0c99"
+        },
+        {
+            "type": "java",
             "name": "Launch ChatBotGUI",
             "request": "launch",
             "mainClass": "ChatBotGUI",
-            "projectName": "BankingBot_c60f3739" // Keep your active project name
+            "projectName": "BankingBot_c60f3739"
         }
     ]
 }
