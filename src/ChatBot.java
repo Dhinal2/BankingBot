@@ -53,67 +53,65 @@ public class ChatBot {
         keywordResponses.put("help", "I'm here to assist you with banking-related queries. You can ask about loans, accounts, ATMs, and more.");
         keywordResponses.put("loan rate", "We offer 1 year loans with only 2.5% intrest rates ");
         keywordResponses.put("account rate", "Fixed Deposit Rates include 8% for 1 year");
-        keywordResponses.put("personal", "Personal loans upto a year!");
-        keywordResponses.put("home", "Home loans upto a 5 years!");
-        keywordResponses.put("car", "Car loans upto a 3 years!");
+        keywordResponses.put("personal loans", "We off Personal loans upto a year!");
+        keywordResponses.put("home loans", "Home loans upto a 5 years!");
+        keywordResponses.put("car loans", "Car loans upto a 3 years!");
     }
 
     // Get the user Response
     public String getResponse(String input) {
-        input = input.toLowerCase();
-        input = lemmatize(input);
-
-         // Check if it's a learning command
-         if (handleLearning(input)) {
-        return "Thanks! I've learned something new.";
-        }
-        
-        //if user Enters nothing
-        if (input == null || input.trim().isEmpty()){
+        if (input == null || input.trim().isEmpty()) {
             return "Go ahead and ask me anything you want!";
         }
-
-        // Name memory
-        if (input.contains("my name is")) {
-            userName = input.replace("my name is", "").trim();
+    
+        final String processedInput = lemmatize(input.toLowerCase());
+    
+        // Check if it's a learning command
+        if (handleLearning(processedInput)) {
+            return "Thanks! I've learned something new.";
+        }
+    
+        if (processedInput.contains("my name is")) {
+            userName = processedInput.replace("my name is", "").trim();
             return "Nice to meet you, " + userName + "!";
         }
-
-        // Respond with name if user asks
-        if (input.contains("what is my name") || input.contains("do you know my name")) {
+    
+        if (processedInput.contains("what is my name") || processedInput.contains("do you know my name")) {
             return (userName != null) ? "Your name is " + userName + "." : "I don't know your name yet!";
         }
-
-        // Check static responses
+    
         for (String key : staticResponses.keySet()) {
-            if (input.contains(key)) {
+            if (processedInput.contains(key)) {
                 return staticResponses.get(key);
             }
         }
-
-        //Check the banking keyword
-        for (String key : keywordResponses.keySet()) {
-            if (input.contains(key)) {
-                return keywordResponses.get(key);
-            }
+    
+    
+        String keywordResponse = keywordResponses.entrySet().stream()
+            .sorted((a, b) -> b.getKey().length() - a.getKey().length())
+            .filter(e -> processedInput.contains(e.getKey()))
+            .map(e -> e.getValue())
+            .findFirst()
+            .orElse(null);
+    
+        if (keywordResponse != null) {
+            return keywordResponse;
         }
-
-        // Fallback random response
+    
+        // Fallback
         String[] fallback = {
-        "Hmm... I'm not sure I understand. You can teach me using: learn: your question = your answer",
-        "I'm still learning. Want to teach me something new? Just type: learn: your question = your answer",
-        "Sorry, I don't have an answer for that. You can add one using: learn: your question = your answer"
+            "Hmm... I'm not sure I understand. You can teach me using: learn: your question = your answer",
+            "I'm still learning. Want to teach me something new? Just type: learn: your question = your answer",
+            "Sorry, I don't have an answer for that. You can add one using: learn: your question = your answer"
         };
         return fallback[random.nextInt(fallback.length)];
     }
+    
 
     // Lematization method to load common variations
     private void loadLemmas() {
-        lemmas.put("loans", "loan");
         lemmas.put("transferring", "transfer");
         lemmas.put("transferred", "transfer");
-        lemmas.put("opened", "open");
-        lemmas.put("opn", "open");
         lemmas.put("accounts", "account");
         lemmas.put("saving", "savings account");
         lemmas.put("savings", "savings account");
@@ -126,7 +124,12 @@ public class ChatBot {
         lemmas.put("rates", "interest");
         lemmas.put("branches", "branch");
         lemmas.put("what is your name", "whats your name");
-        
+        lemmas.put("personal loan", "personal loans");
+        lemmas.put("personal", "personal loans");
+        lemmas.put("home loan", "home loans");
+        lemmas.put("home", "home loans");
+        lemmas.put("car loan", "car loans");
+        lemmas.put("car", "car loans");
     }
     
     // Method to apply lematization words
