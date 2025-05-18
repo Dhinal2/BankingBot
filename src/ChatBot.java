@@ -183,7 +183,6 @@ public class ChatBot {
         return false;
     }
 
-<<<<<<< HEAD
     private void loadBranchInfo() {
     File file = new File(BRANCH_FILE);
     if (!file.exists()) return;
@@ -206,7 +205,6 @@ public class ChatBot {
     private String capitalize(String input) {
     return input.substring(0, 1).toUpperCase() + input.substring(1);
 }
-=======
     //Read Usernames from textfiles to check bank credentials
     public String getUserInfo(String name, String field) {
         try (BufferedReader reader = new BufferedReader(new FileReader("Users.txt"))) {
@@ -257,7 +255,6 @@ public class ChatBot {
             return "Error reading user data.";
         }
     }
->>>>>>> 47938197f14aaf10d216903992e0f6c585194907
 
         
 }
