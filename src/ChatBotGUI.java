@@ -122,7 +122,7 @@ if (lower.contains("balance")) {
             waitingForSavingTips = true;  // Set flag to wait for confirmation
         } else {
             avatarLabel.setIcon(avatars.get("celebrate"));
-            chatArea.append("BankBot: Wow, your balance looks healthy! 🎉\n");
+            chatArea.append("BankBot: Wow, your balance looks healthy!\n");
         }
 
         new Timer(3000, _ -> avatarLabel.setIcon(avatars.get("happy"))).start();

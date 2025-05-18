@@ -49,7 +49,7 @@ public class ChatBot {
         keywordResponses.put("transfer", "You can transfer money using our mobile app or by visiting a branch.");
         keywordResponses.put("atm", "You can locate the nearest ATM using our bank's website or app.");
         keywordResponses.put("credit card", "We offer various credit cards with reward points and cashback.");
-        keywordResponses.put("interest", "Our interest rates vary depending on the type of account or loan. Please specify.");
+        keywordResponses.put("interest", "Our interest rates vary depending if it is an account or loan rate. Please specify.");
         keywordResponses.put("help", "I'm here to assist you with banking-related queries. You can ask about loans, accounts, ATMs, and more.");
         keywordResponses.put("loan rate", "We offer 1 year loans with only 2.5% intrest rates ");
         keywordResponses.put("account rate", "Fixed Deposit Rates include 8% for 1 year");
@@ -64,6 +64,7 @@ public class ChatBot {
             return "Go ahead and ask me anything you want!";
         }
     
+        
         final String processedInput = lemmatize(input.toLowerCase());
     
         // Check if it's a learning command
@@ -85,17 +86,11 @@ public class ChatBot {
                 return staticResponses.get(key);
             }
         }
-    
-    
-        String keywordResponse = keywordResponses.entrySet().stream()
-            .sorted((a, b) -> b.getKey().length() - a.getKey().length())
-            .filter(e -> processedInput.contains(e.getKey()))
-            .map(e -> e.getValue())
-            .findFirst()
-            .orElse(null);
-    
-        if (keywordResponse != null) {
-            return keywordResponse;
+
+        for (String key : keywordResponses.keySet()) {
+            if (processedInput.contains(key)) {
+                return keywordResponses.get(key);
+            }
         }
     
         // Fallback
@@ -120,8 +115,6 @@ public class ChatBot {
         lemmas.put("balances", "balance");
         lemmas.put("bal", "balance");
         lemmas.put("fd", "fixed deposit");
-        lemmas.put("rate", "interest");
-        lemmas.put("rates", "interest");
         lemmas.put("branches", "branch");
         lemmas.put("what is your name", "whats your name");
         lemmas.put("personal loan", "personal loans");
