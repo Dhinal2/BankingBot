@@ -6,31 +6,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "BankingBot_21cb0c99"
-        },
-        {
-            "type": "java",
-            "name": "ChatBotGUI",
+            "name": "Launch ChatBotGUI",
             "request": "launch",
             "mainClass": "ChatBotGUI",
-            "projectName": "BankingBot_c60f3739"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "BankingBot_c60f3739"
-        },
-        {
-            "type": "java",
-            "name": "ChatBotGUI",
-            "request": "launch",
-            "mainClass": "ChatBotGUI",
-            "projectName": "BankingBot_21cb0c99"
+            "projectName": "BankingBot_c60f3739" // Keep your active project name
         }
     ]
 }

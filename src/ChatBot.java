@@ -32,21 +32,30 @@ public class ChatBot {
         staticResponses.put("thanks", "You're welcome!");
         staticResponses.put("good morning", "Good morning to you too!");
         staticResponses.put("goodbye", "Goodbye! Take care.");
-        // Add more as needed
+        staticResponses.put("how are you", "I'm good how are you?");
+        staticResponses.put("good", "Glad to hear! \n How can I help?");
+        staticResponses.put("bad", "I'm sorry to hear that \n How can I help?");
+        staticResponses.put("whats your name", "My name is BankingBot! \n How can I help you?");
+        
     }
 
      // Banking keyword-based responses method
      private void loadKeywordResponses() {
         keywordResponses.put("loan", "We offer personal, home, and car loans with attractive interest rates.");
-        keywordResponses.put("account", "We have savings, current, and fixed deposit accounts.");
-        keywordResponses.put("current account", "Would you like to open a current account?");
-        keywordResponses.put("savings account", "Would you like to open a savings account?");
-        keywordResponses.put("fixed deposit", "Would you like to open a fixed deposit account?");
+        keywordResponses.put("account", "We have savings, current, and fixed deposit accounts.\nWhat account type would you like to open?");
+        keywordResponses.put("current account", "If you would like to open a current account, visit the nearest Branch or Download our App");
+        keywordResponses.put("savings account", "If you would like to open a savings account, visit the nearest Branch or Download our App");
+        keywordResponses.put("fixed deposit", "If you would like to open a fixed deposit, visit the nearest Branch or Download our App");
         keywordResponses.put("transfer", "You can transfer money using our mobile app or by visiting a branch.");
         keywordResponses.put("atm", "You can locate the nearest ATM using our bank's website or app.");
         keywordResponses.put("credit card", "We offer various credit cards with reward points and cashback.");
         keywordResponses.put("interest", "Our interest rates vary depending on the type of account or loan. Please specify.");
         keywordResponses.put("help", "I'm here to assist you with banking-related queries. You can ask about loans, accounts, ATMs, and more.");
+        keywordResponses.put("loan rate", "We offer 1 year loans with only 2.5% intrest rates ");
+        keywordResponses.put("account rate", "Fixed Deposit Rates include 8% for 1 year");
+        keywordResponses.put("personal", "Personal loans upto a year!");
+        keywordResponses.put("home", "Home loans upto a 5 years!");
+        keywordResponses.put("car", "Car loans upto a 3 years!");
     }
 
     // Get the user Response
@@ -61,7 +70,7 @@ public class ChatBot {
         
         //if user Enters nothing
         if (input == null || input.trim().isEmpty()){
-            return "You have not asked anything";
+            return "Go ahead and ask me anything you want!";
         }
 
         // Name memory
@@ -88,7 +97,7 @@ public class ChatBot {
                 return keywordResponses.get(key);
             }
         }
-        
+
         // Fallback random response
         String[] fallback = {
         "Hmm... I'm not sure I understand. You can teach me using: learn: your question = your answer",
@@ -106,12 +115,17 @@ public class ChatBot {
         lemmas.put("opened", "open");
         lemmas.put("opn", "open");
         lemmas.put("accounts", "account");
+        lemmas.put("saving", "savings account");
+        lemmas.put("savings", "savings account");
+        lemmas.put("current", "current account");
         lemmas.put("acc", "account");
         lemmas.put("balances", "balance");
         lemmas.put("bal", "balance");
         lemmas.put("fd", "fixed deposit");
         lemmas.put("rate", "interest");
+        lemmas.put("rates", "interest");
         lemmas.put("branches", "branch");
+        lemmas.put("what is your name", "whats your name");
         
     }
     
@@ -191,15 +205,11 @@ public class ChatBot {
         }
     }
     
-        /**
-     * Look up a given field for the specified user in data/users.txt.
-     * @param name  the user's name (case-insensitive)
-     * @param field one of: name, accountNumber, type, branch, balance
-     * @return the field value or an error message
-     */
+    //Look up Username from text file
     public String lookupUserField(String name, String field) {
         File f = new File("Users.txt");
-        if (!f.exists()) return "No user database found.";
+        if (!f.exists()) return null;  // File not found → treat as guest
+    
         try (BufferedReader rdr = new BufferedReader(new FileReader(f))) {
             String line;
             while ((line = rdr.readLine()) != null) {
@@ -207,18 +217,17 @@ public class ChatBot {
                     // split each key=value pair
                     for (String kv : line.split(",")) {
                         String[] parts = kv.split("=", 2);
-                        if (parts[0].trim().equalsIgnoreCase(field)) {
+                        if (parts.length == 2 && parts[0].trim().equalsIgnoreCase(field)) {
                             return parts[1].trim();
                         }
                     }
-                    return "I found you, but couldn’t find your “" + field + ".”";
+                    return null;  // name found but field not found
                 }
             }
-            return "I don’t have a record for “" + name + ".”";
+            return null;  // user not found
         } catch (IOException e) {
-            return "Error reading user data.";
+            return null;  // error reading file
         }
     }
-
-        
+    
 }
