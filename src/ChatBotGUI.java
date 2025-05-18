@@ -93,7 +93,14 @@ public class ChatBotGUI {
     // account-type request
     if (lower.contains("account type") || lower.contains("type of account")) {
         String type = bot.lookupUserField(userName, "type");
-        chatArea.append("BankBot: You have a “" + type + "” account.\n");
+
+        if (type != null) {
+            chatArea.append("BankBot: You have a \"" + type + "\" account.\n");
+        } else {
+            // Fallback to general info about account types from knowledge base
+            String response = bot.getResponse("account");
+            chatArea.append("BankBot: " + response + "\n");
+        }
         return;
     }
 
@@ -146,28 +153,6 @@ public class ChatBotGUI {
         chatArea.append("BankBot: Your branch is " + br + "\n");
         return;
     }
-
-    // Ask for balance
-    if (lower.contains("balance")) {
-        String result = bot.getUserInfo(userName, "balance");
-        chatArea.append("BankBot: Your current balance is Rs. " + result + "\n");
-        return;
-    }
-
-    // Ask for account number
-    if (lower.contains("account number")) {
-        String result = bot.getUserInfo(userName, "accountNumber");
-        chatArea.append("BankBot: Your account number is " + result + "\n");
-        return;
-    }
-
-    // Ask for branch
-    if (lower.contains("branch")) {
-        String result = bot.getUserInfo(userName, "branch");
-        chatArea.append("BankBot: Your branch is " + result + "\n");
-        return;
-    }
-
 
     // Handle learning
     if (bot.handleLearning(input)) {
