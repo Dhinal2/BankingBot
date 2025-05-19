@@ -20,7 +20,7 @@ public class ChatBotGUI {
     }
 
     private void initGUI() {
-        frame = new JFrame("BankBot - Your Banking Assistant");
+        frame = new JFrame("Banking Assistant - NFC Bank");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(720, 600);
 
