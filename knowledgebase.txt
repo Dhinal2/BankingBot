@@ -1,7 +1,8 @@
 loan=We offer personal, home, and car loans with attractive interest rates.
 account=We have savings, current, and fixed deposit accounts. What account type would you like to open?
 credit card=We offer various credit cards with reward points and cashback.
-branch= Download our Mobile app so you can easily check the nearest branch to you!
+branch=Download our Mobile app so you can easily check the nearest branch to you!
+policy=Our policies vary depending on the services required. For further information please download our App!
 
 current account=If you would like to open a current account, visit the nearest Branch or Download our App
 savings account=If you would like to open a savings account, visit the nearest Branch or Download our App
