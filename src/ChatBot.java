@@ -70,6 +70,7 @@ public class ChatBot {
         }
 
         final String processedInput = lemmatize(input.toLowerCase());
+        String[] inputWords = processedInput.split("\\s+"); // Tokenize input
 
         // 1. Check static responses
         for (String key : staticResponses.keySet()) {
@@ -82,7 +83,7 @@ public class ChatBot {
         List<String> sortedLearnedKeys = new ArrayList<>(learnedResponses.keySet());
         sortedLearnedKeys.sort(Comparator.comparingInt(String::length).reversed()); // Sort by length
         for (String key : sortedLearnedKeys) {
-            if (processedInput.contains(key)) {
+            if (isWholeWordMatch(key, inputWords)) {
                 return learnedResponses.get(key);
             }
         }
@@ -91,7 +92,7 @@ public class ChatBot {
         List<String> sortedKeywordKeys = new ArrayList<>(keywordResponses.keySet());
         sortedKeywordKeys.sort(Comparator.comparingInt(String::length).reversed());// Sort by length
         for (String key : sortedKeywordKeys) {
-            if (processedInput.contains(key)) {
+            if (isWholeWordMatch(key, inputWords)) {
                 return keywordResponses.get(key);
             }
         }
@@ -141,7 +142,9 @@ public class ChatBot {
         lemmas.put("savings", "savings account");
         lemmas.put("current", "current account");
         lemmas.put("fixed", "fixed deposit");
-        lemmas.put("fd", "fixed deposit");
+        lemmas.put("personal", "personal loans");
+        lemmas.put("home", "home loans");
+        lemmas.put("car", "car");
         lemmas.put("what is your name", "whats your name");
     }
 
@@ -233,4 +236,27 @@ public class ChatBot {
             return "Sorry, I encountered an error while reading the user data.";
         }
     }
+
+    // 
+    private boolean isWholeWordMatch(String keyword, String[] inputWords) {
+        String[] keyWords = keyword.split("\\s+");
+        if (keyWords.length > inputWords.length) {
+            return false;
+        }
+
+        for (int i = 0; i <= inputWords.length - keyWords.length; i++) {
+            boolean match = true;
+            for (int j = 0; j < keyWords.length; j++) {
+                if (!keyWords[j].equals(inputWords[i + j])) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
