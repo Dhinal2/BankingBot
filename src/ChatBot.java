@@ -72,14 +72,19 @@ public class ChatBot {
         final String processedInput = lemmatize(input.toLowerCase());
         String[] inputWords = processedInput.split("\\s+"); // Tokenize input
 
-        // 1. Check static responses
+        // 1. Check static responses (FULL MATCH FIRST)
+        if (staticResponses.containsKey(processedInput)) {
+            return staticResponses.get(processedInput);
+        }
+
+        // 2. Check static responses (CONTAINS)
         for (String key : staticResponses.keySet()) {
             if (processedInput.contains(key)) {
                 return staticResponses.get(key);
             }
         }
 
-        // 2. Check learned responses (prioritize more recent knowledge?)
+        // 3. Check learned responses (prioritize more recent knowledge?)
         List<String> sortedLearnedKeys = new ArrayList<>(learnedResponses.keySet());
         sortedLearnedKeys.sort(Comparator.comparingInt(String::length).reversed()); // Sort by length
         for (String key : sortedLearnedKeys) {
@@ -88,7 +93,7 @@ public class ChatBot {
             }
         }
 
-        // 3. Check initial keyword-based responses
+        // 4. Check initial keyword-based responses
         List<String> sortedKeywordKeys = new ArrayList<>(keywordResponses.keySet());
         sortedKeywordKeys.sort(Comparator.comparingInt(String::length).reversed());// Sort by length
         for (String key : sortedKeywordKeys) {
@@ -142,10 +147,10 @@ public class ChatBot {
         lemmas.put("savings", "savings account");
         lemmas.put("current", "current account");
         lemmas.put("fixed", "fixed deposit");
+        lemmas.put("fd", "fixed deposit");
         lemmas.put("personal", "personal loans");
         lemmas.put("home", "home loans");
-        lemmas.put("car", "car");
-        lemmas.put("what is your name", "whats your name");
+        lemmas.put("car", "car loans");
     }
 
     // Method to apply lematization words
@@ -231,13 +236,12 @@ public class ChatBot {
                     return "I found your record, but couldn’t locate your " + field;
                 }
             }
-            return "I couldn’t find a user with the name '" + name + "'. Are you registered?";
+            return "I couldn’t find a user with the name " + name +".";
         } catch (IOException e) {
             return "Sorry, I encountered an error while reading the user data.";
         }
     }
 
-    // 
     private boolean isWholeWordMatch(String keyword, String[] inputWords) {
         String[] keyWords = keyword.split("\\s+");
         if (keyWords.length > inputWords.length) {
@@ -259,4 +263,3 @@ public class ChatBot {
         return false;
     }
 }
-
