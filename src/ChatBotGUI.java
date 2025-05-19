@@ -84,6 +84,7 @@ public class ChatBotGUI {
             chatArea.append(" • Track your expenses daily\n");
             chatArea.append(" • Cut down on non-essentials\n");
             chatArea.append(" • Set small weekly savings goals\n");
+            avatarLabel.setIcon(avatars.get("happy"));
             waitingForSavingTips = false;  // Reset the flag
             return;
         }
@@ -103,40 +104,35 @@ public class ChatBotGUI {
         }
 
 
-        // Balance with Image
+        // Balance with Image and Guest Mode
         if (lower.contains("balance")) {
             String balStr = bot.getUserInfo(userName, "balance");
 
             if (balStr == null) {
-                // User not found
                 avatarLabel.setIcon(avatars.get("sad"));
                 chatArea.append("BankBot: You are currently not registered with us, so you are in Guest Mode.\n");
                 chatArea.append("BankBot: Register an account with us at the nearest branch so you can enjoy our full services.\n");
                 chatArea.append("BankBot: Can I help you with anything else?\n");
-                // Start the timer to change back to happy for unregistered users
-                new Timer(3000, _ -> avatarLabel.setIcon(avatars.get("happy"))).start();
                 return;
-            }
+            } else {
+                try {
+                    double bal = Double.parseDouble(balStr);
+                    chatArea.append("BankBot: Your balance is Rs. " + balStr + "\n");
 
-            try {
-                double bal = Double.parseDouble(balStr);
-                chatArea.append("BankBot: Your balance is Rs. " + balStr + "\n");
-
-                if (bal < 1000) {
-                    avatarLabel.setIcon(avatars.get("sad"));
-                    chatArea.append("BankBot: Your balance seems a bit low. Would you like some saving tips?");
-                    waitingForSavingTips = true; // Set flag to wait for confirmation
-                    new Timer(3000, _ -> avatarLabel.setIcon(avatars.get("happy"))).start();
-                } else {
-                    avatarLabel.setIcon(avatars.get("celebrate"));
-                    chatArea.append("BankBot: Wow, your balance looks healthy!\n");
+                    if (bal < 1000) {
+                        avatarLabel.setIcon(avatars.get("sad"));
+                        chatArea.append("BankBot: Your balance seems a bit low. Would you like some saving tips? (yes/ok)");
+                        waitingForSavingTips = true; // Set flag to wait for confirmation
+                    } else {
+                        avatarLabel.setIcon(avatars.get("celebrate"));
+                        chatArea.append("BankBot: Wow, your balance looks healthy!\n");
+                    }
+                } catch (NumberFormatException ex) {
+                    chatArea.append("BankBot: Hmm, something's wrong with your balance record.\n");
                     new Timer(3000, _ -> avatarLabel.setIcon(avatars.get("happy"))).start();
                 }
-            } catch (NumberFormatException ex) {
-                chatArea.append("BankBot: Hmm, something's wrong with your balance record.\n");
-                new Timer(3000, _ -> avatarLabel.setIcon(avatars.get("happy"))).start();
+                return;
             }
-            return;
         }
 
         // account-number request
@@ -172,5 +168,3 @@ public class ChatBotGUI {
         SwingUtilities.invokeLater(ChatBotGUI::new);
     }
 }
-
-

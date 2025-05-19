@@ -143,7 +143,6 @@ public class ChatBot {
 
     // Lematization method to load common variations
     private void loadLemmas() {
-        lemmas.put("bal", "balance");
         lemmas.put("savings", "savings account");
         lemmas.put("current", "current account");
         lemmas.put("fixed", "fixed deposit");
@@ -236,7 +235,7 @@ public class ChatBot {
                     return "I found your record, but couldn’t locate your " + field;
                 }
             }
-            return "I couldn’t find a user with the name " + name +".";
+            return null; //"I couldn’t find a user with the name " + name +".";
         } catch (IOException e) {
             return "Sorry, I encountered an error while reading the user data.";
         }
