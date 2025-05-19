@@ -148,21 +148,11 @@ public class ChatBotGUI {
             return;
         }
 
-        // Handle learning
-        if (bot.handleLearning(input)) {
-            chatArea.append("BankBot: Thank you! I've learned something new.\n");
-            return;
-        }
-
-        // Normal response
+        // Take input field and pass it to getResponse method
         String response = bot.getResponse(input);
         chatArea.append("BankBot: " + response + "\n");
-
-        // Hint if fallback
-        if (response.contains("I'm not sure") || response.contains("teach me")) {
-            chatArea.append("BankBot: You can help me learn! Use: learn: your question = your answer\n");
-        }
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(ChatBotGUI::new);
