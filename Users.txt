@@ -1,2 +1,2 @@
 name=John Doe,accountNumber=123456789,type=Saving,branch=Colombo,balance=5000
-name=Thanuj ,accountNumber=987654321,type=Current,branch=Kandy,balance=99
+name=Thanuj,accountNumber=987654321,type=Current,branch=Kandy,balance=99
