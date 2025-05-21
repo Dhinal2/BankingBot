@@ -128,7 +128,7 @@ public class ChatBotGUI {
                 chatArea.append("BankBot: You are currently not registered with us, so you are in Guest Mode.\n");
                 chatArea.append("BankBot: Register an account with us at the nearest branch so you can enjoy our full services.\n");
                 chatArea.append("BankBot: Can I help you with anything else?\n");
-                new Timer(3000, _ -> avatarLabel.setIcon(avatars.get("happy"))).start();
+                new Timer(10000, _ -> avatarLabel.setIcon(avatars.get("happy"))).start();
                 return;
             } else {
                 try {
@@ -142,7 +142,6 @@ public class ChatBotGUI {
                     } else {
                         avatarLabel.setIcon(avatars.get("celebrate"));
                         chatArea.append("BankBot: Wow, your balance looks healthy!\n");
-                        new Timer(3000, _ -> avatarLabel.setIcon(avatars.get("happy"))).start();
                     }
                 } catch (NumberFormatException ex) {
                     chatArea.append("BankBot: Hmm, something's wrong with your balance record.\n");

@@ -1,10 +1,11 @@
 debit card=You can request for a debit card via online or at our branch.
 overdraft=Overdraft facilities are available for specific a/c types.
 
-new test case=Ah this is a new test case!
+
 chase=I cannot chase I am a bot
 who are you?=I am a Bankbot for NFC Bank.
-test=new test 19
-thank=you're welcome!
+
+
 what is ai=artificial intelligence
-are you a ai model?=no i am a bank chatbot
+
+are you a ai model?=no i am a bank chatbot!
