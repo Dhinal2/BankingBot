@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -30,12 +31,17 @@ public class ChatBot {
         loadLearnedResponses(); // Load responses from file
     }
 
+    private final List<String> greetingResponses = Arrays.asList(
+    "Hey there!",
+    "Hello! How can I help you today?",
+    "Hi! Good to see you.",
+    "Greetings!",
+    "Hey! What can I do for you?"
+    );
+
     // Static Responses to user (greetings method)
     private void loadStaticResponses() {
-        staticResponses.put("hello", "Hello! How can I help you?");
-        staticResponses.put("hi", "Hi there! What can I do for you?");
         staticResponses.put("thank you", "You're welcome!");
-        staticResponses.put("morning", "Good morning to you too!");
         staticResponses.put("goodbye", "Goodbye! Take care.");
         staticResponses.put("how are you", "I'm good how are you?");
         staticResponses.put("good", "Glad to hear! \n How can I help?");
@@ -74,19 +80,24 @@ public class ChatBot {
         final String processedInput = lemmatize(input.toLowerCase());
         String[] inputWords = processedInput.split("\\s+"); // Tokenize input
 
-        // 1. Check static responses (FULL MATCH FIRST)
+        // 1. Handle greetings with random response
+        if (processedInput.equals("hi") || processedInput.equals("hello") || processedInput.equals("hey")) {
+            return greetingResponses.get(random.nextInt(greetingResponses.size()));
+        }
+
+        // 2. Check static responses (FULL MATCH FIRST)
         if (staticResponses.containsKey(processedInput)) {
             return staticResponses.get(processedInput);
         }
 
-        // 2. Check static responses (CONTAINS)
+        // 3. Check static responses (CONTAINS)
         for (String key : staticResponses.keySet()) {
             if (processedInput.contains(key)) {
                 return staticResponses.get(key);
             }
         }
 
-        // 3. Check learned responses (prioritize more recent knowledge?)
+        // 4. Check learned responses (prioritize more recent knowledge?)
         List<String> sortedLearnedKeys = new ArrayList<>(learnedResponses.keySet());
         sortedLearnedKeys.sort(Comparator.comparingInt(String::length).reversed()); // Sort by length
         for (String key : sortedLearnedKeys) {
@@ -95,7 +106,7 @@ public class ChatBot {
             }
         }
 
-        // 4. Check initial keyword-based responses
+        // 5. Check initial keyword-based responses
         List<String> sortedKeywordKeys = new ArrayList<>(keywordResponses.keySet());
         sortedKeywordKeys.sort(Comparator.comparingInt(String::length).reversed());// Sort by length
         for (String key : sortedKeywordKeys) {
@@ -104,12 +115,12 @@ public class ChatBot {
             }
         }
 
-        // 4. Handle learning command
+        // 6. Handle learning command
         if (handleLearning(processedInput)) {
             return "Thanks! I've learned something new.";
         }
 
-        // 5. Handle name-related inquiries
+        // 7. Handle name-related inquiries
         if (input.toLowerCase().contains("my name is")) {
             Pattern pattern = Pattern.compile("my name is\\s+(.+)", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
@@ -126,7 +137,7 @@ public class ChatBot {
             return (userName != null) ? "Your name is " + userName + "." : "I don't know your name yet!";
         }
 
-        // 6. Fallback
+        // 8. Fallback
         String[] fallback = {
                 "Hmm... I'm not sure I understand. You can teach me using: learn: your question = your answer",
                 "I'm still learning. Want to teach me something new? Just type: learn: your question = your answer",
