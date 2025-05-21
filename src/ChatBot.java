@@ -31,6 +31,7 @@ public class ChatBot {
         loadLearnedResponses(); // Load responses from file
     }
 
+    //Aray List for Random Greetings
     private final List<String> greetingResponses = Arrays.asList(
     "Hey there!",
     "Hello! How can I help you today?",
