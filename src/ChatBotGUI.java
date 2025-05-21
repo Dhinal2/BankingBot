@@ -129,7 +129,6 @@ public class ChatBotGUI {
                         avatarLabel.setIcon(avatars.get("sad"));
                         chatArea.append("BankBot: Your balance seems a bit low. Would you like some saving tips? (yes/ok)");
                         waitingForSavingTips = true; // Set flag to wait for confirmation
-                        new Timer(3000, _ -> avatarLabel.setIcon(avatars.get("happy"))).start();
                     } else {
                         avatarLabel.setIcon(avatars.get("celebrate"));
                         chatArea.append("BankBot: Wow, your balance looks healthy!\n");

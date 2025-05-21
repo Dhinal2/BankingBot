@@ -7,3 +7,4 @@ who are you?=I am a Bankbot for NFC Bank.
 test=new test 19
 thank=you're welcome!
 what is ai=artificial intelligence
+are you a ai model?=no i am a bank chatbot
