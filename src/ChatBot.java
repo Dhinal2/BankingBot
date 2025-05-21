@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChatBot {
     private final HashMap<String, String> staticResponses;
@@ -32,13 +34,13 @@ public class ChatBot {
     private void loadStaticResponses() {
         staticResponses.put("hello", "Hello! How can I help you?");
         staticResponses.put("hi", "Hi there! What can I do for you?");
-        staticResponses.put("thanks", "You're welcome!");
-        staticResponses.put("good morning", "Good morning to you too!");
+        staticResponses.put("thank you", "You're welcome!");
+        staticResponses.put("morning", "Good morning to you too!");
         staticResponses.put("goodbye", "Goodbye! Take care.");
         staticResponses.put("how are you", "I'm good how are you?");
         staticResponses.put("good", "Glad to hear! \n How can I help?");
         staticResponses.put("bad", "I'm sorry to hear that \n How can I help?");
-        staticResponses.put("whats your name", "My name is BankingBot! \n How can I help you?");
+        staticResponses.put("what is your name", "My name is BankingBot! \n How can I help you?");
 
     }
 
@@ -108,10 +110,17 @@ public class ChatBot {
         }
 
         // 5. Handle name-related inquiries
-        if (processedInput.contains("my name is")) {
-            userName = processedInput.replace("my name is", "").trim();
-            return "Nice to meet you, " + userName + "!";
+        if (input.toLowerCase().contains("my name is")) {
+            Pattern pattern = Pattern.compile("my name is\\s+(.+)", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                userName = matcher.group(1).replaceAll("[^a-zA-Z\\s]", "").trim(); // Removes punctuation
+                return "Nice to meet you, " + userName + "!";
+            } else {
+                return "Sorry, I didn’t catch your name. Please say it like: My name is Kevin.";
+            }
         }
+        
 
         if (processedInput.contains("what is my name") || processedInput.contains("do you know my name")) {
             return (userName != null) ? "Your name is " + userName + "." : "I don't know your name yet!";
