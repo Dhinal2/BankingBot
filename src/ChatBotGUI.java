@@ -83,16 +83,26 @@ public class ChatBotGUI {
 
         String lower = input.toLowerCase();
 
-        //If user says ok for saving tips when balance is lower than 1000
-        if (waitingForSavingTips && (lower.equals("yes") || lower.equals("ok"))) {
-            chatArea.append("BankBot: Here are some saving tips:\n");
-            chatArea.append(" • Track your expenses daily\n");
-            chatArea.append(" • Cut down on non-essentials\n");
-            chatArea.append(" • Set small weekly savings goals\n");
-            avatarLabel.setIcon(avatars.get("happy"));
-            waitingForSavingTips = false;  // Reset the flag
+        // Logic part for saving tips
+        if (waitingForSavingTips) {
+            if (lower.equals("yes") || lower.equals("ok")) {
+                chatArea.append("BankBot: Here are some saving tips:\n");
+                chatArea.append(" • Track your expenses daily\n");
+                chatArea.append(" • Cut down on non-essentials\n");
+                chatArea.append(" • Set small weekly savings goals\n");
+                avatarLabel.setIcon(avatars.get("happy"));
+            } else if (lower.equals("no")) {
+                chatArea.append("BankBot: Alright, no problem. Let me know if you change your mind.\n");
+                avatarLabel.setIcon(avatars.get("happy"));
+            } else {
+                chatArea.append("BankBot: Please reply with 'yes' or 'no'.\n");
+                return; // Stay in waiting mode
+            }
+        
+            waitingForSavingTips = false;  // Reset after handling any response
             return;
         }
+        
 
         // account-type request
         if (lower.contains("account type") || lower.contains("type of account")) {
