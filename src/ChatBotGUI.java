@@ -64,12 +64,26 @@ public class ChatBotGUI {
         chatArea.append(userName + ": " + input + "\n");
         inputField.setText("");
 
-        // Handle exit
-        if (input.equalsIgnoreCase("bye")) {
-            chatArea.append("BankBot: Goodbye, " + userName + "! Have a nice day.\n");
-            inputField.setEnabled(false);
-            return;
-        }
+    // Handle exit
+    if (input.equalsIgnoreCase("bye")) {
+        chatArea.append("BankBot: Goodbye, " + userName + "! Have a nice day.\n");
+    
+        inputField.setEnabled(false); // Disable typing
+    
+        // Delay before closing window
+        Timer exitTimer = new Timer(2000, _ -> {
+            Window window = SwingUtilities.getWindowAncestor(chatArea);
+            if (window instanceof JFrame) {
+                ((JFrame) window).dispose(); // Properly close the window
+            }
+        });
+        exitTimer.setRepeats(false); // Only run once
+        exitTimer.start();
+    
+        return;
+    }
+    
+
 
         // Handle name assignment only once
         if (awaitingName) {

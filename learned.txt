@@ -9,3 +9,4 @@ who are you?=I am a Bankbot for NFC Bank.
 what is ai=artificial intelligence
 
 are you a ai model?=no i am a bank chatbot!
+thi is a new question=new question learn

@@ -43,7 +43,6 @@ public class ChatBot {
     // Static Responses to user (greetings method)
     private void loadStaticResponses() {
         staticResponses.put("thank you", "You're welcome!");
-        staticResponses.put("goodbye", "Goodbye! Take care.");
         staticResponses.put("how are you", "I'm good how are you?");
         staticResponses.put("good", "Glad to hear! \n How can I help?");
         staticResponses.put("bad", "I'm sorry to hear that \n How can I help?");
