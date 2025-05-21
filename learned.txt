@@ -5,3 +5,5 @@ new test case=Ah this is a new test case!
 chase=I cannot chase I am a bot
 who are you?=I am a Bankbot for NFC Bank.
 test=new test 19
+thank=you're welcome!
+what is ai=artificial intelligence

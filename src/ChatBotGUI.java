@@ -54,7 +54,12 @@ public class ChatBotGUI {
     //User inputs messages area
     private void sendMessage() {
         String input = inputField.getText().trim();
-        if (input.isEmpty()) return;
+        if (input.isEmpty()) {
+            String response = bot.getResponse(input);
+            chatArea.append("BankBot: " + response + "\n");
+            return;
+        }
+        
 
         chatArea.append(userName + ": " + input + "\n");
         inputField.setText("");
