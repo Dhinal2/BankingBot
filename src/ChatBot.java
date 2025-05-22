@@ -47,7 +47,6 @@ public class ChatBot {
         staticResponses.put("good", "Glad to hear! \n How can I help?");
         staticResponses.put("bad", "I'm sorry to hear that \n How can I help?");
         staticResponses.put("what is your name", "My name is BankingBot! \n How can I help you?");
-
     }
 
     // Banking keyword-based responses method to load dynamic responses
@@ -261,6 +260,8 @@ public class ChatBot {
         }
     }
 
+
+    //Tokenize input and match in order
     private boolean isWholeWordMatch(String keyword, String[] inputWords) {
         String[] keyWords = keyword.split("\\s+");
         if (keyWords.length > inputWords.length) {

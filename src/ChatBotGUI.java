@@ -83,8 +83,6 @@ public class ChatBotGUI {
         return;
     }
     
-
-
         // Handle name assignment only once
         if (awaitingName) {
             userName = input;
